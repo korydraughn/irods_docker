@@ -23,6 +23,7 @@ RUN git clone https://github.com/irods/irods_client_nfsrods
 WORKDIR irods_client_nfsrods
 RUN git checkout dev && mvn clean install -Dmaven.test.skip=true
 
-# Start Kerberos.
-#RUN service krb5-kdc start && \
-#    service krb5-admin-server start
+WORKDIR /
+ADD run_container.sh /run_container.sh
+RUN chmod u+x /run_container.sh
+CMD ["./run_container.sh"]
