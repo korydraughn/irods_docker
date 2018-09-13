@@ -26,4 +26,5 @@ RUN git checkout dev && mvn clean install -Dmaven.test.skip=true
 WORKDIR /
 ADD run_container.sh /run_container.sh
 RUN chmod u+x /run_container.sh
+ENTRYPOINT ["/bin/bash", "-c"]
 CMD ["./run_container.sh"]
