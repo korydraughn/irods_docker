@@ -3,6 +3,10 @@ FROM koryd/krb5_postgres
 # Set the default shell for executing commands.
 SHELL ["/bin/bash", "-c"]
 
+# Should create a shared location between the container
+# and the native host computer.
+VOLUME ["/opt/kory/docker/irods_data"]
+
 # Install iRODS.
 RUN service postgresql start && \
     wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add -; \
