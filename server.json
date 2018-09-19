@@ -1,0 +1,20 @@
+{
+    "nfs_server": {
+        "port": 2050,
+        "kerberos_service_principal": "nfs/testrods@TESTRODS",
+        "kerberos_keytab": "/krb5.keytab",
+        "irods_mount_point": "/tempZone"
+    },
+
+    "irods_server": {
+        "zone": "tempZone",
+        "host": "localhost",
+        "port": 1247,
+        "default_resource": "demoResc"
+    },
+
+    "irods_proxy_admin_account": {
+        "username": "rods",
+        "password": "rods"
+    }
+}

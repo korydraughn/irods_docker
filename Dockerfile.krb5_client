@@ -1,0 +1,9 @@
+FROM ubuntu
+
+ADD krb5.conf krb5.keytab /etc/
+
+RUN apt-get update && \
+    apt-get install -y krb5-user nfs-common inetutils-ping && \
+    modprobe nfs && \
+    modprobe nfsd && \
+    modprobe rpcsec_gss_krb5
