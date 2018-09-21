@@ -1,7 +1,7 @@
 #! /bin/bash
 
-service krb5-kdc start
-service krb5-admin-server start
+#service krb5-kdc start
+#service krb5-admin-server start
 service postgresql start
 service rpcbind start
 
@@ -14,8 +14,8 @@ python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhos
 
 # Create new directory for mounting NFSRODS and
 # authenticate the user with the Kerberos server.
-mkdir /mnt/nfsrods
-echo rods | kinit -f rods
+#mkdir /mnt/nfsrods
+#echo rods | kinit -f rods
 
 # Compile NFSRODS.
 git clone https://github.com/irods/irods_client_nfsrods
@@ -23,9 +23,12 @@ cd irods_client_nfsrods
 git checkout dev && mvn clean install -Dmaven.test.skip=true
 mv /server.json /log4j.properties /irods_client_nfsrods/irods-vfs-impl/config
 
+# Move Kerberos files into the correct location.
+mv /krb5.conf /krb5.keytab /etc/
+
 # Run the NFSRODS server in the background.
-#export NFSRODS_HOME=/irods_client_nfsrods/irods-vfs-impl
-#java -jar irods-vfs-impl/target/irods-vfs-impl-1.0.0-SNAPSHOT-jar-with-dependencies.jar
+export NFSRODS_HOME=/irods_client_nfsrods/irods-vfs-impl
+java -jar $NFSRODS_HOME/target/irods-vfs-impl-1.0.0-SNAPSHOT-jar-with-dependencies.jar
 
 # Create a mount point.
 #mount -o sec=krb5,port=2050 localhost:/ /mnt/nfsrods
@@ -33,4 +36,4 @@ mv /server.json /log4j.properties /irods_client_nfsrods/irods-vfs-impl/config
 # Keep container alive so admin can view test results,
 # or write them to a shared location outside of the container.
 # This should be removed in the future.
-tail -f /dev/null
+#tail -f /dev/null

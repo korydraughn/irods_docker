@@ -1,18 +1,14 @@
-FROM koryd/krb5_postgres
-
-# Set the default shell for executing commands.
-SHELL ["/bin/bash", "-c"]
+FROM ub16_postgres
 
 # Install iRODS and NFS packages.
-# irods-auth-plugin-krb 
 RUN service postgresql start && \
     wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add -; \
     echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods.list; \
     apt-get update && \
-    apt-get install -y irods-server irods-database-plugin-postgres krb5-user && \
-    apt-get install -y nfs-kernel-server nfs-common rpcbind
+    apt-get install -y irods-server irods-database-plugin-postgres && \
+    apt-get install -y nfs-common rpcbind
 
-ADD tests/ /tests/
+#ADD tests/ /tests/
 ADD krb5.conf krb5.keytab server.json log4j.properties /
 
 # Set command to execute when launching the container.

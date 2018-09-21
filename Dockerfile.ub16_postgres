@@ -1,0 +1,8 @@
+FROM ubuntu:16.04
+
+RUN apt-get update && \
+    apt-get install -y apt-transport-https openjdk-8-jdk maven vim git postgresql wget
+
+# Setup ICAT database.
+ADD db_commands.txt /db_commands.txt
+RUN service postgresql start && su - postgres -c "psql -f /db_commands.txt"
