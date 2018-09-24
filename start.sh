@@ -3,7 +3,7 @@
 #service krb5-kdc start
 #service krb5-admin-server start
 service postgresql start
-service rpcbind start
+#service rpcbind start
 
 seconds=10
 echo "Sleeping for $seconds seconds to let the database complete start up ..."
@@ -27,6 +27,7 @@ mv /server.json /log4j.properties /irods_client_nfsrods/irods-vfs-impl/config
 mv /krb5.conf /krb5.keytab /etc/
 
 # Run the NFSRODS server in the background.
+rpcbind
 export NFSRODS_HOME=/irods_client_nfsrods/irods-vfs-impl
 java -jar $NFSRODS_HOME/target/irods-vfs-impl-1.0.0-SNAPSHOT-jar-with-dependencies.jar
 
