@@ -30,11 +30,3 @@ mv /krb5.conf /krb5.keytab /etc/
 rpcbind
 export NFSRODS_HOME=/irods_client_nfsrods/irods-vfs-impl
 java -jar $NFSRODS_HOME/target/irods-vfs-impl-1.0.0-SNAPSHOT-jar-with-dependencies.jar
-
-# Create a mount point.
-#mount -o sec=krb5,port=2050 localhost:/ /mnt/nfsrods
-
-# Keep container alive so admin can view test results,
-# or write them to a shared location outside of the container.
-# This should be removed in the future.
-#tail -f /dev/null

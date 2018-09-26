@@ -12,21 +12,28 @@ def check_output(cmd):
 
 class NFSRODSTests(unittest.TestCase):
 
+    #mount_point = "/mnt/nfsrods"
+    #mount_port  = "2050"
+
     def setUp(self):
         # Set up mount point.
         # Authenticate with Kerberos server.
-        #check_call("[ ! -d '/mnt/nfsrods' ] && mkdir /mnt/nfsrods")
-        #check_call("mount -o sec=krb5,port=2050 $(hostname):/ /mnt/nfsrods")
-        #check_call("echo rods | kinit -f rods")
-        #check_call("cd /mnt/nfsrods");
-        pass
+        #check_call("[ ! -d '{0}' ] && mkdir {0}".format(NFSRODSTests.mount_point))
+        #check_call("sudo mount -o sec=krb5,port={1} $(hostname):/ {0}".format(NFSRODSTests.mount_point, NFSRODSTests.mount_port))
+        check_call("echo rods | kinit -f rods")
+        #check_call("cd {0}".format(NFSRODSTests.mount_point));
+        #pass
 
     def tearDown(self):
         # Unmount the mount point.
         # Clear Kerberos access.
-        pass
+        #check_call("sudo umount {0}".format(NFSRODSTests.mount_point));
+        check_call("kdestroy")
+        #pass
 
     def test_cd(self):
+        ec = check_output("echo rods | kinit -f rods && ls -l /mnt/nfsrods/home/rods")
+        print("ec =", ec)
         self.assertTrue(True)
 
     def test_mkdir(self):
