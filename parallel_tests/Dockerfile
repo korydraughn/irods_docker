@@ -40,4 +40,4 @@ RUN wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-k
 # Set command to execute when launching the container.
 ADD start.sh run_test.sh /
 RUN chmod u+x /start.sh /run_test.sh
-ENTRYPOINT ["/bin/bash", "-c", "./start.sh"]
+ENTRYPOINT ["./start.sh"]

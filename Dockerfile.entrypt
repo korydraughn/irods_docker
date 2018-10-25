@@ -1,0 +1,4 @@
+FROM ubuntu:16.04
+ADD print_args.sh /
+RUN chmod u+x /print_args.sh
+ENTRYPOINT ["/bin/bash", "-c", "./print_args.sh"]
