@@ -1,3 +1,3 @@
 #! /bin/bash
 
-docker build -t irods_tests .
+docker build -t irods_test_env .
