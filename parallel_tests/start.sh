@@ -42,7 +42,7 @@ python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhos
 
 # Run test.
 cp /run_test.sh /var/lib/irods/
-cd /var/lib/irods
+su - irods
 ./run_test.sh $1
 
 # Keep container running.
