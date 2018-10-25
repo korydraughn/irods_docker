@@ -1,5 +1,8 @@
 #! /bin/bash
 
+test_logs_home=${1:-'~/irods_test_env'}
+[ ! -d $test_logs_home ] && mkdir ~/$test_logs_home
+
 for name in test_all_rules \
             test_auth \
             test_catalog \
@@ -44,6 +47,6 @@ for name in test_all_rules \
             test_util \
             test_xmsg
 do
-    docker run -d --rm --name $name irods_test_env $name
+    docker run -d --rm --name $name -v $test_logs_home:/irods_test_env irods_test_env $name
 done
 
