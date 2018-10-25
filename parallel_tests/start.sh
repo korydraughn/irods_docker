@@ -2,10 +2,7 @@
 
 # Start the Postgres database.
 service postgresql start
-sleep 5
-
-# Install iRODS packages.
-#dpkg -i irods-{runtime,dev,server,database-plugin-postgres}*.deb
+sleep ${2:-60}
 
 # Set up iRODS.
 python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_postgres.input

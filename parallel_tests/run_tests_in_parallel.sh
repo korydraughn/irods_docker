@@ -1,21 +1,20 @@
 #! /bin/bash
 
-for name in test_ichksum \
-            test_ichmod \
-            test_ils \
-            test_irepl \
-            test_irm \
-            test_irmdir \
-            test_itrim
-do
-    docker run -d --rm --name $name irods_test_env $name
-done
+#for name in test_ichksum \
+#            test_ichmod \
+#            test_ils \
+#            test_irepl \
+#            test_irm \
+#            test_irmdir \
+#            test_itrim
+#do
+#    docker run -d --rm --name $name irods_test_env $name
+#done
+#
+#exit 
 
-exit 
-
-# This is the 2nd test.
-            #test_auth \
 for name in test_all_rules \
+            test_auth \
             test_catalog \
             test_chunkydevtest \
             test_client_hints \

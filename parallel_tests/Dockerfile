@@ -43,16 +43,11 @@ RUN wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-k
 #
 # iRODS Test Environment Image.
 #
-#FROM alpine:latest
 FROM ubuntu:16.04
 
 # Copy iRODS packages into image.
 COPY --from=irods_package_builder /irods_build/*.deb /
 COPY --from=irods_package_builder /icommands_build/*.deb /
-
-#RUN apk add --update vim postgresql wget lsb-release python \
-                     #sudo python-psutil python-requests odbc-postgresql \
-                     #libjson-perl python-jsonschema
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https vim postgresql wget lsb-release python \
@@ -68,7 +63,11 @@ ADD db_commands.txt /
 RUN service postgresql start && su - postgres -c 'psql -f /db_commands.txt'
 
 # Install and setup iRODS.
-RUN dpkg -i irods-{runtime,dev,icommands,server,database-plugin-postgres}*.deb
+RUN dpkg -i irods-runtime*.deb \
+            irods-dev*.deb \
+            irods-icommands*.deb \
+            irods-server*.deb \
+            irods-database-plugin-postgres*.deb
 
 # Set command to execute when launching the container.
 ADD start.sh run_test.sh /
