@@ -42,6 +42,7 @@ python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhos
 
 # Run test.
 cp /run_test.sh /var/lib/irods/
+chown irods:irods /var/lib/irods/run_test.sh
 su - irods
 ./run_test.sh $1
 
