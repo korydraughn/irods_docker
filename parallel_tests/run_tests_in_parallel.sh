@@ -1,18 +1,5 @@
 #! /bin/bash
 
-#for name in test_ichksum \
-#            test_ichmod \
-#            test_ils \
-#            test_irepl \
-#            test_irm \
-#            test_irmdir \
-#            test_itrim
-#do
-#    docker run -d --rm --name $name irods_test_env $name
-#done
-#
-#exit 
-
 for name in test_all_rules \
             test_auth \
             test_catalog \
@@ -59,3 +46,4 @@ for name in test_all_rules \
 do
     docker run -d --rm --name $name irods_test_env $name
 done
+
