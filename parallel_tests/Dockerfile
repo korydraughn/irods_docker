@@ -46,8 +46,7 @@ RUN wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-k
 FROM ubuntu:16.04
 
 # Copy iRODS packages into image.
-COPY --from=irods_package_builder /irods_build/*.deb /
-COPY --from=irods_package_builder /icommands_build/*.deb /
+COPY --from=irods_package_builder /irods_build/*.deb /icommands_build/*.deb /
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https vim postgresql wget lsb-release python \
@@ -58,12 +57,10 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y irods-externals*
 
-# Setup ICAT database.
+# Setup ICAT database, then install and setup iRODS.
 ADD db_commands.txt /
-RUN service postgresql start && su - postgres -c 'psql -f /db_commands.txt'
-
-# Install and setup iRODS.
-RUN dpkg -i irods-runtime*.deb \
+RUN service postgresql start && su - postgres -c 'psql -f /db_commands.txt'; \
+    dpkg -i irods-runtime*.deb \
             irods-dev*.deb \
             irods-icommands*.deb \
             irods-server*.deb \
