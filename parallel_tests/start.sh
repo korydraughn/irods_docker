@@ -14,7 +14,7 @@ done
 python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_postgres.input
 
 # Run test.
-su - irods -c "python scripts/run_tests.py --xml_output --run_specific_test=$test_name"
+su - irods -c "python scripts/run_tests.py --run_specific_test $test_name"
 ec=$?
 
 # Make test results available to docker host.
