@@ -1,7 +1,7 @@
 #! /bin/bash
 
-test_logs_home=${1:-'~/irods_test_env'}
-[ ! -d $test_logs_home ] && mkdir ~/$test_logs_home
+test_logs_home=${1:-"$HOME/irods_test_env"}
+[ ! -d $test_logs_home ] && mkdir $test_logs_home
 
 for name in test_all_rules \
             test_auth \

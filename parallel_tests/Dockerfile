@@ -70,6 +70,6 @@ RUN dpkg -i irods-runtime*.deb \
             irods-database-plugin-postgres*.deb
 
 # Set command to execute when launching the container.
-ADD start.sh run_test.sh /
-RUN chmod u+x /start.sh /run_test.sh
+ADD start.sh /
+RUN chmod u+x /start.sh
 ENTRYPOINT ["./start.sh"]
