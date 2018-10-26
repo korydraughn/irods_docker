@@ -57,7 +57,7 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y irods-externals*
 
-# Setup ICAT database, then install and setup iRODS.
+# Setup ICAT database and install iRODS packages (no setup).
 ADD db_commands.txt /
 RUN service postgresql start && su - postgres -c 'psql -f /db_commands.txt'; \
     dpkg -i irods-runtime*.deb \
