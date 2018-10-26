@@ -1,7 +1,12 @@
 #! /bin/bash
 
 test_logs_home=${1:-"$HOME/irods_test_env"}
-test_name_prefix=${2:-""}
+
+if [ -z "$2" ]; then
+    test_name_prefix=""
+else
+    test_name_prefix="${2}_"
+fi
 
 [ ! -d $test_logs_home ] && mkdir $test_logs_home
 
@@ -37,6 +42,6 @@ for name in test_all_rules \
             test_ssl \
             test_symlink_operations
 do
-    docker run -d --rm --name ${test_name_prefix}_${name} -v $test_logs_home:/irods_test_env irods_test_env $name
+    docker run -d --rm --name ${test_name_prefix}${name} -v $test_logs_home:/irods_test_env irods_test_env $name
 done
 
