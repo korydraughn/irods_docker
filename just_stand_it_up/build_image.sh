@@ -38,4 +38,4 @@ while [ -n "$1" ]; do
     shift
 done
 
-echo docker build -t $image_name $build_args .
+docker build -t $image_name $build_args .
