@@ -33,7 +33,7 @@ while [ -n "$1" ]; do
         --icommands_repo)   shift; build_args="$build_args --build-arg icommands_repo=${1}";;
         --icommands_branch) shift; build_args="$build_args --build-arg icommands_branch=${1}";;
         --cmake_path)       shift; build_args="$build_args --build-arg cmake_path=${1}";;
-        -h|--help)        usage;;
+        -h|--help)          usage;;
     esac
     shift
 done
