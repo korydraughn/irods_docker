@@ -1,0 +1,13 @@
+You can instruct which repo and branch to build by setting different build arguments.
+
+Example:
+
+    ./build_image.sh my_image --build-arg irods_repo=... --build-arg irods_branch=... <etc.>
+
+Available arguments are:
+
+    irods_repo          = URL to iRODS github repository
+    irods_branch        = iRODS branch to build
+    icommands_repo      = URL to the iRODS icommands repository
+    icommands_branch    = icommands branch to build
+    cmake_path          = Full path to the CMake binary (e.g. /opt/irods-externals/cmakeX.X.X/bin)
