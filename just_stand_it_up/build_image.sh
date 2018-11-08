@@ -8,7 +8,7 @@ You can instruct which repo and branch to build by setting different build argum
 
 Example:
 
-    ./build_image.sh --image-name my_image --build-arg irods-repo=... --build-arg irods-branch=... <etc.>
+    ./build_image.sh --image-name <arg> --irods-repo <arg> --irods-branch <arg> ...
 
 Available options:
 
@@ -27,12 +27,12 @@ build_args=
 
 while [ -n "$1" ]; do
     case "$1" in
-        --image_name)       shift; image_name=${1};;
-        --irods_repo)       shift; build_args="$build_args --build-arg irods_repo=${1}";;
-        --irods_branch)     shift; build_args="$build_args --build-arg irods_branch=${1}";;
-        --icommands_repo)   shift; build_args="$build_args --build-arg icommands_repo=${1}";;
-        --icommands_branch) shift; build_args="$build_args --build-arg icommands_branch=${1}";;
-        --cmake_path)       shift; build_args="$build_args --build-arg cmake_path=${1}";;
+        --image-name)       shift; image_name=${1};;
+        --irods-repo)       shift; build_args="$build_args --build-arg irods_repo=${1}";;
+        --irods-branch)     shift; build_args="$build_args --build-arg irods_branch=${1}";;
+        --icommands-repo)   shift; build_args="$build_args --build-arg icommands_repo=${1}";;
+        --icommands-branch) shift; build_args="$build_args --build-arg icommands_branch=${1}";;
+        --cmake-path)       shift; build_args="$build_args --build-arg cmake_path=${1}";;
         -h|--help)          usage;;
     esac
     shift
