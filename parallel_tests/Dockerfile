@@ -34,20 +34,13 @@ ENV IRODS_BUILD_ICOMMANDS_COMMIT ${icommands_branch}
 ARG cmake_path="/opt/irods-externals/cmake3.11.4-0/bin"
 ENV PATH ${cmake_path}:$PATH
 
-#ARG clang_path="/opt/irods-externals/clang6.0-0/bin"
-#ENV PATH ${clang_path}:$PATH
+ARG clang_path="/opt/irods-externals/clang6.0-0/bin"
+ENV PATH ${clang_path}:$PATH
 
 ADD build_irods_packages.sh /
 
-# Install irods-externals packages.
-RUN chmod u+x /build_irods_packages.sh && \
-    ./build_irods_packages.sh
-#RUN wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-key add -; \
-    #echo "deb [arch=amd64] https://core-dev.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods-core-dev.list; \
-    #apt-get update && \
-    #apt-get install -y irods-externals* && \
-    #chmod u+x /build_irods_packages.sh && \
-    #./build_irods_packages.sh
+# Build iRODS packages.
+RUN chmod u+x /build_irods_packages.sh && ./build_irods_packages.sh
 
 
 
