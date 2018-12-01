@@ -22,7 +22,7 @@ _EOF_
     exit
 }
 
-image_name=irods_test_env
+image_name=irods_ub16_postgres
 build_args=
 
 while [ -n "$1" ]; do

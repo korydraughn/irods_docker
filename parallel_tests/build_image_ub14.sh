@@ -22,7 +22,7 @@ _EOF_
     exit
 }
 
-image_name=irods_test_env
+image_name=irods_test_env:ub14
 build_args=
 
 while [ -n "$1" ]; do
@@ -38,4 +38,4 @@ while [ -n "$1" ]; do
     shift
 done
 
-docker build -t $image_name $build_args .
+docker build -f Dockerfile.ub14 -t $image_name $build_args .

@@ -1,21 +1,7 @@
 #
-# iRODS Packages Builder Base Image
+# iRODS Packages Builder Image.
 #
-FROM ubuntu:16.04 as irods_package_builder_base
-
-# Install iRODS dependencies.
-RUN apt-get update && \
-    apt-get install -y apt-transport-https git vim postgresql wget lsb-release ninja-build python \
-                       libssl-dev libpam0g-dev unixodbc-dev libkrb5-dev sudo libfuse-dev libcurl4-gnutls-dev \
-                       libbz2-dev python-psutil python-requests libxml2-dev zlib1g-dev odbc-postgresql python-dev \
-                       make gcc help2man libjson-perl python-jsonschema super lsof
-
-
-
-#
-# iRODS Packages Builder Image
-#
-FROM irods_package_builder_base as irods_package_builder
+FROM ubuntu:14.04 as irods_package_builder
 
 ARG irods_repo="https://github.com/irods/irods"
 ENV IRODS_BUILD_IRODS_REPO ${irods_repo}
@@ -32,10 +18,17 @@ ENV IRODS_BUILD_ICOMMANDS_COMMIT ${icommands_branch}
 ARG cmake_path="/opt/irods-externals/cmake3.11.4-0/bin"
 ENV PATH ${cmake_path}:$PATH
 
-#ARG clang_path="/opt/irods-externals/clang6.0-0/bin"
-#ENV PATH ${clang_path}:$PATH
+ARG clang_path="/opt/irods-externals/clang6.0-0/bin"
+ENV PATH ${clang_path}:$PATH
 
 ADD build_irods_packages.sh /
+
+# Install iRODS dependencies.
+RUN apt-get update && \
+    apt-get install -y apt-transport-https git vim postgresql wget lsb-release ninja-build python \
+                       libssl-dev libpam0g-dev unixodbc-dev libkrb5-dev sudo libfuse-dev libcurl4-gnutls-dev \
+                       libbz2-dev python-psutil python-requests libxml2-dev zlib1g-dev odbc-postgresql python-dev \
+                       make gcc help2man libjson-perl python-jsonschema super lsof
 
 # Install irods-externals packages.
 RUN wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-key add -; \
@@ -48,40 +41,42 @@ RUN wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-k
 
 
 #
-# iRODS Base Image
+# iRODS Test Environment Image.
 #
-FROM ubuntu:16.04 as irods_base
+FROM ubuntu:14.04
+
+# Copy iRODS packages into image.
+COPY --from=irods_package_builder /irods_build/*.deb /icommands_build/*.deb /
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https vim postgresql wget lsb-release python python-pip \
                        sudo python-psutil python-requests odbc-postgresql libfuse2 libjson-perl \
-                       python-jsonschema libssl-dev super lsof unixodbc rsyslog less && \
+                       python-jsonschema libssl-dev super lsof unixodbc && \
     wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-key add -; \
     echo "deb [arch=amd64] https://core-dev.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods-core-dev.list; \
     apt-get update && \
     apt-get install -y irods-externals*; \
     pip install xmlrunner
 
-# Setup ICAT database.
+# Setup ICAT database and install iRODS packages (no setup).
 ADD db_commands.txt /
-RUN service postgresql start && su - postgres -c 'psql -f /db_commands.txt'
-
-
-
-#
-# iRODS Image
-#
-FROM irods_base
-
-# Copy iRODS packages into image.
-COPY --from=irods_package_builder /irods_build/*.deb /icommands_build/*.deb /
-
-# Install iRODS packages (no setup).
-RUN dpkg -i irods-runtime*.deb \
+RUN service postgresql start && su - postgres -c 'psql -f /db_commands.txt'; \
+    dpkg -i irods-runtime*.deb \
             irods-dev*.deb \
             irods-icommands*.deb \
             irods-server*.deb \
             irods-database-plugin-postgres*.deb
+
+# Build and install new version of Python.
+RUN apt-get install -y build-essential && \
+    apt-get install -y libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev && \
+    version=2.7.15 && \
+    wget https://www.python.org/ftp/python/$version/Python-$version.tgz && \
+    tar -xvf Python-$version.tgz && \
+    cd Python-$version && \
+    ./configure && \
+    make && \
+    make altinstall
 
 # Set command to execute when launching the container.
 ADD start.sh /
