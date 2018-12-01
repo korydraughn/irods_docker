@@ -4,11 +4,13 @@
 FROM ubuntu:16.04 as irods_package_builder_base
 
 # Install iRODS dependencies.
-RUN apt-get update && \
+RUN wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-key add -; \
+    echo "deb [arch=amd64] https://core-dev.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods-core-dev.list; \
+    apt-get update && \
     apt-get install -y apt-transport-https git vim postgresql wget lsb-release ninja-build python \
                        libssl-dev libpam0g-dev unixodbc-dev libkrb5-dev sudo libfuse-dev libcurl4-gnutls-dev \
                        libbz2-dev python-psutil python-requests libxml2-dev zlib1g-dev odbc-postgresql python-dev \
-                       make gcc help2man libjson-perl python-jsonschema super lsof
+                       make gcc help2man libjson-perl python-jsonschema super lsof 'irods-externals*'
 
 
 
@@ -38,12 +40,14 @@ ENV PATH ${cmake_path}:$PATH
 ADD build_irods_packages.sh /
 
 # Install irods-externals packages.
-RUN wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-key add -; \
-    echo "deb [arch=amd64] https://core-dev.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods-core-dev.list; \
-    apt-get update && \
-    apt-get install -y irods-externals* && \
-    chmod u+x /build_irods_packages.sh && \
+RUN chmod u+x /build_irods_packages.sh && \
     ./build_irods_packages.sh
+#RUN wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-key add -; \
+    #echo "deb [arch=amd64] https://core-dev.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods-core-dev.list; \
+    #apt-get update && \
+    #apt-get install -y irods-externals* && \
+    #chmod u+x /build_irods_packages.sh && \
+    #./build_irods_packages.sh
 
 
 
