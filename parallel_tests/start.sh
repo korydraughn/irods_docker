@@ -31,9 +31,9 @@ if [ -f /test_hooks/post_test.sh ]; then
 fi
 
 # Make test results available to docker host.
-mkdir /irods_test_env/$test_name
+[ ! -d /irods_test_env/$test_name ] && mkdir /irods_test_env/$test_name
 cd /var/lib/irods
-cp log/rodsLog* log/rodsServerLog* log/test_log.txt test/test_output.txt /irods_test_env/$test_name
+cp log/rodsLog* log/rodsServerLog* log/test_log.txt test/test_output.txt /var/log/irods.log /irods_test_env/$test_name
 
 # Keep container running if the test fails.
 if [[ $ec != 0 ]]; then

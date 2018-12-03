@@ -1,15 +1,18 @@
 #! /bin/bash
 
+image_name=irods_test_env
 test_logs_home=$HOME/irods_test_env
 test_name_prefix=
 test_hooks_volume_mount=
 
 while [ "$1" != "" ]; do
     case $1 in
+        --image-name)   shift; image_name=$1;;
         --logs-home)    shift; test_logs_home=$1;;
         --prefix)       shift; test_name_prefix=${1}_;;
         --hooks)        shift; test_hooks_volume_mount="-v $1:/test_hooks";;
 
+        --image-name=*) image_name="${1#*=}";;
         --logs-home=*)  test_logs_home="${1#*=}";;
         --prefix=*)     test_name_prefix="${1#*=}_";;
         --hooks=*)      test_hooks_volume_mount="-v ${1#*=}:/test_hooks";;
@@ -48,10 +51,11 @@ for name in test_all_rules \
             test_resource_configuration \
             test_resource_tree \
             test_resource_types \
+            test_rule_engine_plugin_passthrough \
             test_rulebase \
             test_ssl \
             test_symlink_operations
 do
-    docker run -d --rm --name ${test_name_prefix}${name} $test_hooks_volume_mount -v $test_logs_home:/irods_test_env irods_test_env $name
+    docker run -d --rm --name ${test_name_prefix}${name} $test_hooks_volume_mount -v $test_logs_home:/irods_test_env $image_name $name
 done
 
