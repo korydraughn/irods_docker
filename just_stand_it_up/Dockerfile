@@ -1,18 +1,28 @@
 #
-# iRODS Packages Builder Base Image
+# iRODS Common
 #
-FROM ubuntu:16.04 as irods_package_builder_base
+FROM ubuntu:16.04 as irods_common
 
-# Install iRODS dependencies.
 RUN apt-get update && \
-    apt-get install -y apt-transport-https git vim postgresql wget lsb-release ninja-build python \
-                       libssl-dev libpam0g-dev unixodbc-dev libkrb5-dev sudo libfuse-dev libcurl4-gnutls-dev \
-                       libbz2-dev python-psutil python-requests libxml2-dev zlib1g-dev odbc-postgresql python-dev \
-                       make gcc help2man libjson-perl python-jsonschema super lsof; \
-    wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-key add -; \
+    apt-get install -y apt-transport-https wget lsb-release sudo \
+                       python python-psutil python-requests python-jsonschema \
+                       libssl-dev super lsof postgresql odbc-postgresql libjson-perl
+
+RUN wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-key add -; \
     echo "deb [arch=amd64] https://core-dev.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods-core-dev.list; \
     apt-get update && \
     apt-get install -y 'irods-externals*'
+
+#
+# iRODS Packages Builder Base Image
+#
+FROM irods_common as irods_package_builder_base
+
+# Install iRODS dependencies.
+RUN apt-get update && \
+    apt-get install -y git ninja-build libpam0g-dev unixodbc-dev libkrb5-dev libfuse-dev \
+                       libcurl4-gnutls-dev libbz2-dev libxml2-dev zlib1g-dev python-dev \
+                       make gcc help2man 
 
 
 
@@ -49,17 +59,10 @@ RUN chmod u+x /build_irods_packages.sh && ./build_irods_packages.sh
 #
 # iRODS Base Image
 #
-FROM ubuntu:16.04 as irods_base
+FROM irods_common as irods_base
 
-RUN apt-get update && \
-    apt-get install -y apt-transport-https vim postgresql wget lsb-release python python-pip \
-                       sudo python-psutil python-requests odbc-postgresql libfuse2 libjson-perl \
-                       python-jsonschema libssl-dev super lsof unixodbc rsyslog less && \
-    wget -qO - https://core-dev.irods.org/irods-core-dev-signing-key.asc | apt-key add -; \
-    echo "deb [arch=amd64] https://core-dev.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods-core-dev.list; \
-    apt-get update && \
-    apt-get install -y irods-externals*; \
-    pip install xmlrunner
+RUN apt-get update && apt-get install -y vim python-pip libfuse2 unixodbc rsyslog less
+RUN pip install xmlrunner
 
 # Setup ICAT database.
 ADD db_commands.txt /
