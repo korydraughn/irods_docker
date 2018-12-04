@@ -4,7 +4,7 @@ usage() {
 cat <<_EOF_
 Usage: ./build_image.sh [OPTIONS]...
 
-You can instruct which repo and branch to build by setting different build arguments.
+Builds a new docker image.
 
 Example:
 
@@ -12,6 +12,7 @@ Example:
 
 Available options:
 
+    --image-name            The name of the new docker image
     --irods-repo            URL to iRODS github repository
     --irods-branch          iRODS branch to build
     --icommands-repo        URL to the iRODS icommands repository
