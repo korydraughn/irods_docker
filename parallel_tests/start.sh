@@ -34,7 +34,7 @@ fi
 [ ! -d /irods_test_env/$test_name ] && mkdir /irods_test_env/$test_name
 cd /var/lib/irods
 cp log/rodsLog* log/rodsServerLog* log/test_log.txt test/test_output.txt /irods_test_env/$test_name
-[ -f /var/log/irods.log ] && cp /var/log/irods.log /irods_test_env/$test_name
+[ -f /var/log/irods/irods.log ] && cp /var/log/irods/irods.log /irods_test_env/$test_name
 
 # Keep container running if the test fails.
 if [[ $ec != 0 ]]; then
