@@ -33,7 +33,8 @@ fi
 # Make test results available to docker host.
 [ ! -d /irods_test_env/$test_name ] && mkdir /irods_test_env/$test_name
 cd /var/lib/irods
-cp log/rodsLog* log/rodsServerLog* log/test_log.txt test/test_output.txt /irods_test_env/$test_name
+#cp log/rodsLog* log/rodsServerLog* log/test_log.txt test/test_output.txt /irods_test_env/$test_name
+cp log/test_log.txt test/test_output.txt /irods_test_env/$test_name
 [ -f /var/log/irods/irods.log ] && cp /var/log/irods/irods.log /irods_test_env/$test_name
 
 # Keep container running if the test fails.
