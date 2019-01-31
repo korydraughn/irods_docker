@@ -21,7 +21,7 @@ fi
 
 # Run test.
 tests=/var/lib/irods/test/test_output.txt
-su - irods -c "python scripts/run_tests.py --xml_output --run_specific_test $test_name > $tests 2>&1"
+su - irods -c "cd scripts && python run_tests.py --xml_output --run_specific_test $test_name > $tests 2>&1"
 ec=$?
 
 if [ -f /test_hooks/post_test.sh ]; then
