@@ -1,9 +1,9 @@
 #! /bin/bash
 
 # Start the Postgres database.
-service postgresql start
+su - postgres -c 'pg_ctl start'
 counter=0
-until pg_isready -q
+until su - postgres -c "psql ICAT -c '\d'"
 do
     sleep 1
     ((counter += 1))
