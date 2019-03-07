@@ -33,6 +33,7 @@ for name in test_all_rules \
             test_ils \
             test_imeta_help \
             test_imeta_set \
+            test_imv \
             test_ipasswd \
             test_iput_options \
             test_iquest \
