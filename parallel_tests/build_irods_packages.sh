@@ -11,10 +11,10 @@ cd /
 mkdir irods_build
 cd irods_build
 cmake -GNinja /irods
-ninja package
+ninja package || ninja-build package
 
 # Install packages for building iCommands.
-dpkg -i irods-{runtime,dev}*.deb
+dpkg -i irods-{runtime,dev}*.deb || rpm -i irods-{runtime,dev}*.rpm
 
 # Clone iCommands repo.
 cd /
@@ -27,4 +27,4 @@ cd /
 mkdir icommands_build
 cd icommands_build
 cmake -GNinja /irods_client_icommands
-ninja package
+ninja package || ninja-build package

@@ -3,12 +3,14 @@
 test_name=$1
 
 # Start the Postgres database.
-service postgresql start
-until pg_isready -q
+su - postgres -c 'pg_ctl start'
+counter=0
+until su - postgres -c "psql ICAT -c '\d'"
 do
-    echo waiting for database ...
     sleep 1
+    ((counter += 1))
 done
+echo Postgres took approximately $counter seconds to fully start ...
 
 # Set up iRODS.
 python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_postgres.input

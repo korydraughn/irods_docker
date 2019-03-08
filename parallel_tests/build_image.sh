@@ -12,6 +12,7 @@ Example:
 
 Available options:
 
+    -f                      The path of the docker build file (defaults to Dockerfile.ubuntu)
     --image-name            The name of the new docker image
     --base-image            The base OS docker image (e.g. ubuntu:16.04, etc.)
     --irods-repo            URL to iRODS github repository
