@@ -5,7 +5,7 @@ test_name=$1
 # Start the Postgres database.
 service postgresql start
 counter=0
-until pg_isready
+until pg_isready -q
 do
     sleep 1
     ((counter += 1))
