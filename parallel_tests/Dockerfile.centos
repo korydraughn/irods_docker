@@ -88,6 +88,6 @@ RUN rpm -i irods-runtime*.rpm \
            irods-database-plugin-postgres*.rpm
 
 # Set command to execute when launching the container.
-ADD start.sh /
-RUN chmod u+x /start.sh
-ENTRYPOINT ["./start.sh"]
+ADD start.centos.sh /
+RUN chmod u+x /start.centos.sh
+ENTRYPOINT ["./start.centos.sh"]
