@@ -23,11 +23,13 @@ _EOF_
     exit
 }
 
+docker_file=Dockerfile.ubuntu
 image_name=irods_ub16_postgres
 build_args=
 
 while [ -n "$1" ]; do
     case "$1" in
+        -f)                 shift; docker_file=${1};;
         --image-name)       shift; image_name=${1};;
         --irods-repo)       shift; build_args="$build_args --build-arg irods_repo=${1}";;
         --irods-branch)     shift; build_args="$build_args --build-arg irods_branch=${1}";;
@@ -39,4 +41,4 @@ while [ -n "$1" ]; do
     shift
 done
 
-docker build -t $image_name $build_args .
+docker build -f $docker_file -t $image_name $build_args .
