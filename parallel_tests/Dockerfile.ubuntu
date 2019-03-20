@@ -79,6 +79,8 @@ RUN service postgresql start && su - postgres -c 'psql -f /db_commands.txt'
 #
 FROM irods_base
 
+RUN apt-get update && apt-get install -y net-tools
+
 # Copy iRODS packages into image.
 COPY --from=irods_package_builder /irods_build/*.deb /icommands_build/*.deb /
 

@@ -81,6 +81,8 @@ RUN su - postgres -c 'pg_ctl start && sleep 5 && psql -f /db_commands.txt'
 #
 FROM irods_base
 
+RUN yum update && yum install -y net-tools
+
 # Copy iRODS packages into image.
 COPY --from=irods_package_builder /irods_build/*.rpm /icommands_build/*.rpm /
 
