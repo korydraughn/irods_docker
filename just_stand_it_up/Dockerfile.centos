@@ -68,7 +68,6 @@ RUN pip install xmlrunner
 # Setup ICAT database.
 ADD db_commands.txt /
 RUN su - postgres -c 'pg_ctl initdb'
-#RUN su - postgres -c 'ls -l /var/lib/pgsql/data'
 RUN su - postgres -c 'cat /var/lib/pgsql/data/pg_hba.conf && echo 3'
 RUN su - postgres -c "sed -i 's/\(^host.*\)trust/\1md5/g' /var/lib/pgsql/data/pg_hba.conf"
 RUN su - postgres -c 'cat /var/lib/pgsql/data/pg_hba.conf && echo 2'
