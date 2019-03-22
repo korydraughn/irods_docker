@@ -1,5 +1,10 @@
 #! /bin/bash
 
+if [ ! -d /run/postgresql ]; then
+    mkdir /run/postgresql
+    chown postgres:postgres /run/postgresql
+fi
+
 # Start the Postgres database.
 su - postgres -c 'pg_ctl start'
 counter=0
@@ -15,5 +20,6 @@ python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhos
 
 # Keep container running if the test fails.
 # Is this better? sleep 2147483647d
-tail -f /dev/null
+exec /usr/sbin/init
+#tail -f /dev/null
 

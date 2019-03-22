@@ -1,7 +1,30 @@
 #
+# Centos 7 System-D Enabled Image
+#
+FROM centos:7 as centos_7_systemd
+
+ENV container docker
+
+RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
+systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;
+
+VOLUME ["/sys/fs/cgroup"]
+
+CMD ["/usr/sbin/init"]
+
+
+
+#
 # iRODS Common
 #
-FROM centos:7 as irods_common
+FROM centos_7_systemd as irods_common
 
 RUN yum update -y && \
     yum install -y epel-release && \
@@ -14,6 +37,8 @@ RUN rpm --import https://core-dev.irods.org/irods-core-dev-signing-key.asc && \
     yum update -y && \
     yum install -y 'irods-externals*'
 
+
+
 #
 # iRODS Packages Builder Base Image
 #
@@ -22,8 +47,8 @@ FROM irods_common as irods_package_builder_base
 # Install iRODS dependencies.
 RUN yum update -y && \
     yum install -y git ninja-build pam-devel krb5-devel fuse-devel which \
-                       libcurl-devel bzip2-devel libxml2-devel zlib-devel python-devel \
-                       make gcc-c++ help2man rpm-build
+                   libcurl-devel bzip2-devel libxml2-devel zlib-devel python-devel \
+                   make gcc-c++ help2man rpm-build
 
 
 
@@ -68,9 +93,7 @@ RUN pip install xmlrunner
 # Setup ICAT database.
 ADD db_commands.txt /
 RUN su - postgres -c 'pg_ctl initdb'
-RUN su - postgres -c 'cat /var/lib/pgsql/data/pg_hba.conf && echo 3'
 RUN su - postgres -c "sed -i 's/\(^host.*\)trust/\1md5/g' /var/lib/pgsql/data/pg_hba.conf"
-RUN su - postgres -c 'cat /var/lib/pgsql/data/pg_hba.conf && echo 2'
 RUN su - postgres -c 'pg_ctl start && sleep 5 && psql -f /db_commands.txt'
 
 
