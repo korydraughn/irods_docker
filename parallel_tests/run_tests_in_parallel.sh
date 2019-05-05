@@ -26,6 +26,7 @@ done
 for name in test_all_rules \
             test_catalog \
             test_control_plane \
+            test_dynamic_peps \
             test_iadmin \
             test_ichksum \
             test_ichmod \
