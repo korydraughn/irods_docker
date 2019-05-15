@@ -52,7 +52,8 @@ ENV PATH ${clang_path}:$PATH
 ADD build_irods_packages.sh /
 
 # Build iRODS packages.
-RUN chmod u+x /build_irods_packages.sh && ./build_irods_packages.sh
+RUN chmod u+x /build_irods_packages.sh
+RUN ./build_irods_packages.sh
 
 
 
