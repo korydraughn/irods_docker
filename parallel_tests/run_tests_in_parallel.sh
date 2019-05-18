@@ -31,6 +31,7 @@ for name in test_all_rules \
             test_ichksum \
             test_ichmod \
             test_icommands_file_operations \
+            test_ifsck \
             test_ils \
             test_imeta_help \
             test_imeta_set \
@@ -53,6 +54,7 @@ for name in test_all_rules \
             test_resource_configuration \
             test_resource_tree \
             test_resource_types \
+            test_rule_engine_plugin_framework \
             test_rule_engine_plugin_passthrough \
             test_rulebase \
             test_ssl \
