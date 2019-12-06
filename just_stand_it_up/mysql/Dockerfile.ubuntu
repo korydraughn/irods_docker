@@ -69,7 +69,6 @@ RUN pip install xmlrunner
 # Setup ICAT database.
 ADD db_commands.txt /
 RUN service mysql start && mysql < db_commands.txt
-#RUN service mysql start && su - postgres -c 'psql -f /db_commands.txt'
 
 
 
@@ -89,6 +88,10 @@ RUN dpkg -i irods-runtime*.deb \
             irods-icommands*.deb \
             irods-server*.deb \
             irods-database-plugin-mysql*.deb
+
+RUN echo 1
+ADD mysql-connector-odbc-5.3.14-linux-ubuntu16.04-x86-64bit.tar.gz /
+ADD odbcinst.ini /etc
 
 # Set command to execute when launching the container.
 ADD wait_for_database.py /

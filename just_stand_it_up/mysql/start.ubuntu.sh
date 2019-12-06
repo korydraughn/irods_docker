@@ -3,13 +3,10 @@
 # Start the database.
 service mysql start
 python wait_for_database.py
-#counter=0
-#until pg_isready -q
-#do
-#    sleep 1
-#    ((counter += 1))
-#done
-#echo Postgres took approximately $counter seconds to fully start ...
+
+# Do last minute MySQL setup.
+cp /mysql-connector-odbc-5.3.14-linux-ubuntu16.04-x86-64bit/lib/* /usr/lib
+ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
 
 # Set up iRODS.
 python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_mysql.input

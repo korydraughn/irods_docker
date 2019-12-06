@@ -10,7 +10,7 @@ cd /
 # Build iRODS.
 mkdir irods_build
 cd irods_build
-cmake -GNinja /irods
+cmake -GNinja -DCMAKE_BUILD_TYPE=Debug /irods
 ninja package || ninja-build package
 
 # Install packages for building iCommands.
@@ -26,5 +26,5 @@ cd /
 # Build and install iCommands.
 mkdir icommands_build
 cd icommands_build
-cmake -GNinja /irods_client_icommands
+cmake -GNinja -DCMAKE_BUILD_TYPE=Debug /irods_client_icommands
 ninja package || ninja-build package
