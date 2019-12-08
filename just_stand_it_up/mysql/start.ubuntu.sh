@@ -5,7 +5,7 @@ service mysql start
 python wait_for_database.py
 
 # Do last minute MySQL setup.
-cp /mysql-connector-odbc-5.3.14-linux-ubuntu16.04-x86-64bit/lib/* /usr/lib
+#cp /mysql-connector-odbc-5.2.7-linux-glibc2.5-x86-64bit/lib/* /usr/lib
 ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
 
 # Set up iRODS.
