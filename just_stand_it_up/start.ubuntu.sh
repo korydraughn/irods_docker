@@ -10,6 +10,10 @@ do
 done
 echo Postgres took approximately $counter seconds to fully start ...
 
+# Update the zone name if requested.
+zone_name="$1"
+[ ! -z "$zone_name" ] && sed -i "12s/.*/$zone_name/" /var/lib/irods/packaging/localhost_setup_postgres.input
+
 # Set up iRODS.
 python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_postgres.input
 
