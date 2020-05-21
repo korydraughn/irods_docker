@@ -1,14 +1,20 @@
 from __future__ import print_function
 
+import sys
 import socket
 import time
 
+if len(sys.argv) == 1:
+    print('MySQL hostname was not provided.')
+    sys.exit(1)
+
+hostname = sys.argv[1]
 seconds = 0
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 while True:
     try:
-        s.connect(('localhost', 3306))
+        s.connect((sys.argv[1], 3306))
         break
     except:
         time.sleep(1)
