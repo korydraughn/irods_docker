@@ -3,7 +3,7 @@
 # Clone iRODS repo and initialize.
 git clone $IRODS_BUILD_IRODS_REPO
 cd irods
-git checkout $(git rev-parse $IRODS_BUILD_IRODS_COMMIT)
+git checkout $(git rev-parse origin/$IRODS_BUILD_IRODS_COMMIT)
 git submodule update --init
 cd /
 
@@ -20,7 +20,7 @@ dpkg -i irods-{runtime,dev}*.deb || rpm -i irods-{runtime,devel}*.rpm
 cd /
 git clone $IRODS_BUILD_ICOMMANDS_REPO
 cd irods_client_icommands
-git checkout $(git rev-parse $IRODS_BUILD_ICOMMANDS_COMMIT)
+git checkout $(git rev-parse origin/$IRODS_BUILD_ICOMMANDS_COMMIT)
 cd /
 
 # Build and install iCommands.
