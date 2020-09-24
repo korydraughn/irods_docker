@@ -23,5 +23,5 @@ RUN apt-get update && \
                        irods-database-plugin-postgres=${irods_version} \
                        irods-rule-engine-plugin-logical-quotas=${irods_rep_version}
 
-COPY rep_config.json provider.input start.sh /
+COPY example.sh rep_config.json provider.input start.sh /
 ENTRYPOINT ["bash", "./start.sh"]
