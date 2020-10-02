@@ -11,7 +11,7 @@ ENV IRODS_ZONE_NAME ${irods_zone_name}
 
 RUN apt-get update && \
     apt-get install -y apt-transport-https && \
-    apt-get install -y wget lsb-release odbc-postgresql jq
+    apt-get install -y wget lsb-release odbc-postgresql jq rsyslog logrotate
 
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add -; \
     echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods.list;
