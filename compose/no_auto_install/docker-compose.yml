@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+    catalog:
+        build:
+            context: ./catalog
+            args:
+                postgres_password: testpassword
+
+    provider:
+        build:
+            context: ./provider
+            args:
+                irods_version: 4.2.8
+                irods_zone_name: tempZone
+        depends_on:
+            - catalog
+        volumes:
+            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+            - "./install_irods.sh:/install_irods.sh:ro"
