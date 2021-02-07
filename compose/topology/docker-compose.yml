@@ -6,7 +6,13 @@ services:
             context: ./catalog
             args:
                 postgres_password: testpassword
+        networks:
+            topo_net:
+                ipv4_address: "10.0.10.111"
 
+    # The iRODS catalog provider container.
+    # It only knows the other machines by their short name (i.e. the container name).
+    # This will require a hosts_config.json file.
     provider:
         build:
             context: ./provider
@@ -15,11 +21,16 @@ services:
                 irods_zone_name: tempZone
         depends_on:
             - catalog
+        networks:
+            topo_net:
+                ipv4_address: "10.0.10.112"
         volumes:
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
 
+    # An iRODS consumer container.
+    # The consumer is configured with long hostnames, but knows only short names.
     consumer:
         build:
             context: ./consumer
@@ -28,12 +39,17 @@ services:
                 irods_zone_name: tempZone
         depends_on:
             - provider
+        networks:
+            topo_net:
+                ipv4_address: "10.0.10.113"
         volumes:
             - "./wait_for_remote_host.py:/wait_for_remote_host.py:ro"
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
 
+    # A container with only icommands installed and an /etc/hosts configuration
+    # containing only long names for the consumer and provider.
     client:
         build:
             context: ./client
@@ -42,9 +58,22 @@ services:
                 irods_zone_name: tempZone
         depends_on:
             - consumer
+        networks:
+            topo_net:
+                ipv4_address: "10.0.10.114"
+        extra_hosts:
+            - "consumer.irods.org:10.0.10.113"
+            - "provider.irods.org:10.0.10.112"
         volumes:
             - "./wait_for_remote_host.py:/wait_for_remote_host.py:ro"
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+
+networks:
+    topo_net:
+        ipam:
+            driver: default
+            config:
+                - subnet: "10.0.10.0/24"
 
