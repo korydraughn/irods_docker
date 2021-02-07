@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+    catalog:
+        build:
+            context: ./catalog
+            args:
+                postgres_password: testpassword
+
+    provider:
+        build:
+            context: ./provider
+            args:
+                irods_version: 4.2.8
+                irods_rep_version: 4.2.8.0
+                irods_zone_name: tempZone
+        depends_on:
+            - catalog
+        ports:
+            - "2247:1247"

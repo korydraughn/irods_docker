@@ -15,6 +15,9 @@ services:
                 irods_zone_name: tempZone
         depends_on:
             - catalog
+        ports:
+            - "11247:1247"
+            - "11248:1248"
         volumes:
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"

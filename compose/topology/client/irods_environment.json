@@ -1,0 +1,7 @@
+{
+    "irods_zone_name": "tempZone",
+    "irods_default_resource": "demoResc",
+    "irods_host": "consumer",
+    "irods_port": 1247,
+    "irods_user_name": "kory"
+}

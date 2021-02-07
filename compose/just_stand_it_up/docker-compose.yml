@@ -11,7 +11,7 @@ services:
         build:
             context: ./provider
             args:
-                irods_version: 4.2.8
+                irods_version: 4.2.7
                 irods_zone_name: tempZone
         depends_on:
             - catalog
@@ -21,3 +21,5 @@ services:
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+            - "/home/kory/dev/prog/docker/irods_docker/compose/just_stand_it_up/test_rule.r:/test_rule.r:ro"
+            - "/home/kory/dev/prog/docker/irods_docker/compose/just_stand_it_up/upgrade.sh:/upgrade.sh:ro"
