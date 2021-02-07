@@ -12,7 +12,6 @@ services:
 
     # The iRODS catalog provider container.
     # It only knows the other machines by their short name (i.e. the container name).
-    # This will require a hosts_config.json file.
     provider:
         build:
             context: ./provider
@@ -31,6 +30,7 @@ services:
 
     # An iRODS consumer container.
     # The consumer is configured with long hostnames, but knows only short names.
+    # This will require a hosts_config.json file.
     consumer:
         build:
             context: ./consumer

@@ -22,5 +22,5 @@ RUN apt-get update && \
                        irods-server=${irods_version} \
                        irods-database-plugin-postgres=${irods_version}
 
-COPY consumer.input start.sh /
+COPY consumer.input start.sh hosts_config.json /
 ENTRYPOINT ["bash", "./start.sh"]
