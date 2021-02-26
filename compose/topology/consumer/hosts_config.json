@@ -1,0 +1,22 @@
+{
+    "host_entries": [
+        {
+            "address_type": "local",
+            "addresses": [
+                {"address": "10.0.10.113"},
+                {"address": "consumer.irods.org"},
+                {"address": "irods-consumer"},
+                {"address": "consumer"}
+            ]
+        },
+        {
+            "address_type": "remote",
+            "addresses": [
+                {"address": "10.0.10.112"},
+                {"address": "provider.irods.org"},
+                {"address": "irods-provider"},
+                {"address": "provider"}
+            ]
+        }
+    ]
+}

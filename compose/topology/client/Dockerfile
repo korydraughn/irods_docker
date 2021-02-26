@@ -20,5 +20,5 @@ RUN apt-get update && \
     apt-get install -y irods-runtime=${irods_version} \
                        irods-icommands=${irods_version}
 
-COPY start.sh /
+COPY start.sh input.client /
 ENTRYPOINT ["bash", "./start.sh"]

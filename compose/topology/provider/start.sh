@@ -16,8 +16,7 @@ sed -i "12s/.*/$IRODS_ZONE_NAME/" /provider.input
 python /var/lib/irods/scripts/setup_irods.py < /provider.input
 
 # Create an additional rodsadmin user.
-su - irods -c 'iadmin mkuser otherrods rodsadmin' && \
-su - irods -c 'iadmin moduser otherrods password rods'
+su - irods -c 'iadmin mkuser otherrods rodsadmin && iadmin moduser otherrods password rods'
 
 # Keep container running.
 sleep 2147483647d

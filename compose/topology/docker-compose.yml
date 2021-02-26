@@ -20,10 +20,14 @@ services:
                 irods_zone_name: tempZone
         depends_on:
             - catalog
+        hostname: irods-provider
         networks:
             topo_net:
                 ipv4_address: "10.0.10.112"
+        extra_hosts:
+            - "irods-consumer:10.0.10.113"
         volumes:
+            - "./upgrade.sh:/upgrade.sh:ro"
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
@@ -39,11 +43,14 @@ services:
                 irods_zone_name: tempZone
         depends_on:
             - provider
+        hostname: irods-consumer
         networks:
             topo_net:
                 ipv4_address: "10.0.10.113"
+        extra_hosts:
+            - "irods-provider:10.0.10.112"
         volumes:
-            - "./wait_for_remote_host.py:/wait_for_remote_host.py:ro"
+            - "./upgrade.sh:/upgrade.sh:ro"
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
@@ -65,7 +72,7 @@ services:
             - "consumer.irods.org:10.0.10.113"
             - "provider.irods.org:10.0.10.112"
         volumes:
-            - "./wait_for_remote_host.py:/wait_for_remote_host.py:ro"
+            - "./upgrade_icommands.sh:/upgrade_icommands.sh:ro"
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
