@@ -1,0 +1,81 @@
+version: "3.7"
+
+services:
+    # Catalog for tempZone
+    tempzone_catalog:
+        build:
+            context: ./catalog
+            args:
+                postgres_password: testpassword
+        hostname: irods-tempzone-catalog
+        networks:
+            tempzone_net:
+                ipv4_address: "100.0.0.200"
+
+    # Provider for tempZone
+    tempzone_provider:
+        build:
+            context: ./tempZone
+            args:
+                irods_version: 4.2.8
+                irods_zone_name: tempZone
+        depends_on:
+            - tempzone_catalog
+        hostname: irods-tempzone
+        networks:
+            tempzone_net:
+                ipv4_address: "100.0.0.100"
+        extra_hosts:
+            - "irods-tempzone-catalog:100.0.0.200"
+            - "irods-otherzone:200.0.0.100"
+        volumes:
+            - "./upgrade.sh:/upgrade.sh:ro"
+            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+
+    # Catalog for otherZone
+    otherzone_catalog:
+        build:
+            context: ./catalog
+            args:
+                postgres_password: testpassword
+        hostname: irods-otherzone-catalog
+        networks:
+            otherzone_net:
+                ipv4_address: "200.0.0.200"
+
+    # Provider for otherZone
+    otherzone_provider:
+        build:
+            context: ./otherZone
+            args:
+                irods_version: 4.2.8
+                irods_zone_name: otherZone
+        depends_on:
+            - otherzone_catalog
+        hostname: irods-otherzone
+        networks:
+            otherzone_net:
+                ipv4_address: "200.0.0.100"
+        extra_hosts:
+            - "irods-otherzone-catalog:200.0.0.200"
+            - "irods-tempzone:100.0.0.100"
+        volumes:
+            - "./upgrade.sh:/upgrade.sh:ro"
+            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+
+networks:
+    tempzone_net:
+        ipam:
+            driver: default
+            config:
+                - subnet: "100.0.0.0/24"
+    otherzone_net:
+        ipam:
+            driver: default
+            config:
+                - subnet: "200.0.0.0/24"
+
