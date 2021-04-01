@@ -1,6 +1,6 @@
 [
     {
-        "catalog_provider_hosts": ["irods-otherzone"],
+        "catalog_provider_hosts": ["otherzone_provider"],
         "negotiation_key": "_____32_byte_pre_shared_key_____",
         "zone_key": "TEMPORARY_ZONE_KEY",
         "zone_name": "otherZone",

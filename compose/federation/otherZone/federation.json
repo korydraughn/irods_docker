@@ -1,6 +1,6 @@
 [
     {
-        "catalog_provider_hosts": ["irods-tempzone"],
+        "catalog_provider_hosts": ["tempzone_provider"],
         "negotiation_key": "_____32_byte_pre_shared_key_____",
         "zone_key": "TEMPORARY_ZONE_KEY",
         "zone_name": "tempZone",

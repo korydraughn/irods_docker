@@ -2,7 +2,7 @@
 
 # Wait for the Postgres database to start.
 counter=0
-until pg_isready -h irods-otherzone-catalog -d ICAT -U irods -q
+until pg_isready -h otherzone_catalog -d ICAT -U irods -q
 do
     sleep 1
     ((counter += 1))
@@ -21,10 +21,11 @@ cat /etc/irods/server_config.json | \
     mv /server_config.json /etc/irods/server_config.json
 
 # Finish setting up the remote zone.
-su - irods -c 'iadmin mkzone tempZone remote irods-tempzone:1247'
+su - irods -c 'iadmin mkzone tempZone remote tempzone_provider:1247'
 
 # Create an additional rodsuser for federation.
-su - irods -c 'iadmin mkuser otherrods#tempZone rodsuser && iadmin moduser otherrods#tempZone password rods'
+su - irods -c 'iadmin mkuser bobby rodsuser && iadmin moduser bobby password rods'
+su - irods -c 'iadmin mkuser alice#tempZone rodsuser && iadmin moduser alice#tempZone password rods'
 
 # Keep container running.
 sleep 2147483647d
