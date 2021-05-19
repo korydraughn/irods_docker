@@ -12,8 +12,8 @@ services:
             - MYSQL_DATABASE=ICAT
             - MYSQL_USER=irods
             - MYSQL_PASSWORD=testpassword
-        ports:
-            - "3306:3306"
+        expose:
+            - "3306"
         volumes:
             - "/home/kory/dev/prog/docker/irods_docker/compose/just_stand_it_up/mysql/catalog/db_commands.sql:/docker-entrypoint-initdb.d/db_commands.sql:ro"
 
@@ -25,8 +25,8 @@ services:
                 irods_zone_name: tempZone
         depends_on:
             - catalog
-        ports:
-            - "2247:1247"
+        expose:
+            - "1247"
         volumes:
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"

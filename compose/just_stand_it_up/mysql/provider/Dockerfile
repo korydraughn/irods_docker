@@ -23,6 +23,6 @@ RUN apt-get update && \
                        irods-database-plugin-mysql=${irods_version}
 
 COPY odbcinst.ini /etc
-COPY mysql-connector-odbc-5.2.7-linux-glibc2.5-x86-64bit.tar.gz /
+ADD mysql-connector-odbc-5.2.7-linux-glibc2.5-x86-64bit.tar.gz /
 COPY wait_for_database.py provider.input start.sh /
 ENTRYPOINT ["bash", "./start.sh"]
