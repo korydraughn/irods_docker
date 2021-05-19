@@ -100,8 +100,8 @@ RUN dpkg -i irods-runtime*.deb \
             irods-server*.deb \
             irods-database-plugin-mysql*.deb
 
-ADD mysql-connector-odbc-5.2.7-linux-glibc2.5-x86-64bit.tar.gz /
-ADD odbcinst.ini /etc
+ADD mysql_odbc_connectors/mysql-connector-odbc-5.2.7-linux-glibc2.5-x86-64bit.tar.gz /
+ADD mysql_odbc_connectors/odbcinst.ini /etc
 
 # Set command to execute when launching the container.
 ADD wait_for_database.py /
