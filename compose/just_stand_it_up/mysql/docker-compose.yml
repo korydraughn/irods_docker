@@ -1,0 +1,34 @@
+version: "3.7"
+
+services:
+    catalog:
+        build:
+            context: ./catalog
+
+    catalog:
+        image: mysql:5.7
+        environment:
+            - MYSQL_ROOT_PASSWORD=testpassword
+            - MYSQL_DATABASE=ICAT
+            - MYSQL_USER=irods
+            - MYSQL_PASSWORD=testpassword
+        ports:
+            - "3306:3306"
+        volumes:
+            - "/home/kory/dev/prog/docker/irods_docker/compose/just_stand_it_up/mysql/catalog/db_commands.sql:/docker-entrypoint-initdb.d/db_commands.sql:ro"
+
+    provider:
+        build:
+            context: ./provider
+            args:
+                irods_version: 4.2.8
+                irods_zone_name: tempZone
+        depends_on:
+            - catalog
+        ports:
+            - "2247:1247"
+        volumes:
+            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+            - "/home/kory/dev/prog/docker/irods_docker/compose/just_stand_it_up/upgrade.sh:/upgrade.sh:ro"
