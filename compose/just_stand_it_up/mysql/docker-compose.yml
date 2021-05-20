@@ -27,4 +27,3 @@ services:
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
-            - "/home/kory/dev/prog/docker/irods_docker/compose/just_stand_it_up/upgrade.sh:/upgrade.sh:ro"
