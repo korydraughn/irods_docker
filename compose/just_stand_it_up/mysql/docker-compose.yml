@@ -2,10 +2,6 @@ version: "3.7"
 
 services:
     catalog:
-        build:
-            context: ./catalog
-
-    catalog:
         image: mysql:5.7
         environment:
             - MYSQL_ROOT_PASSWORD=testpassword
