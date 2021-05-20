@@ -6,10 +6,10 @@ unzip instantclient-odbc-linux.x64-21.1.0.0.0.zip
 export LD_LIBRARY_PATH=/instantclient_21_1:$LD_LIBRARY_PATH
 export PATH=/instantclient_21_1:$PATH
 
-cd instantclient_21_1 && ./odbc_update_ini.sh /
+pushd instantclient_21_1 && ./odbc_update_ini.sh / && popd
 
 # Wait for the Oracle database to accept connections.
-python wait_for_database.py catalog
+python /wait_for_database.py catalog
 
 # Update the zone name.
 sed -i "12s/.*/$IRODS_ZONE_NAME/" /provider.input
