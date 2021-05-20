@@ -22,7 +22,7 @@ RUN apt-get update && \
                        irods-server=${irods_version} \
                        irods-database-plugin-oracle=${irods_version}
 
-COPY instantclient-basic-linux.x64-21.1.0.0.0.zip instantclient-odbc-linux.x64-21.1.0.0.0.zip /
-COPY instantclient-basic-linux.x64-19.11.0.0.0dbru.zip instantclient-odbc-linux.x64-19.11.0.0.0dbru.zip /
-COPY wait_for_database.py provider.input start.sh /
+COPY instantclient-basic-linux.x64-21.1.0.0.0.zip instantclient-odbc-linux.x64-21.1.0.0.0.zip instantclient-sqlplus-linux.x64-21.1.0.0.0.zip /
+COPY instantclient-basic-linux.x64-19.11.0.0.0dbru.zip instantclient-odbc-linux.x64-19.11.0.0.0dbru.zip instantclient-sqlplus-linux.x64-19.11.0.0.0dbru.zip /
+COPY is_oracle_db_up.sql provider.input start.sh /
 ENTRYPOINT ["bash", "./start.sh"]

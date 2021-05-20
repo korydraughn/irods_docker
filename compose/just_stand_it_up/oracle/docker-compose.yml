@@ -2,6 +2,12 @@ version: "2.4"
 
 services:
     catalog:
+        # This compose file does not build any Oracle database. The user
+        # is responsible for providing an Oracle XE container image. See
+        # the following repo for details on accomplishing that:
+        #
+        #   https://github.com/oracle/docker-images/tree/main/OracleDatabase/SingleInstance
+        #
         image: oracle:18.4.0-xe
         environment:
             - ORACLE_PWD=testpassword
