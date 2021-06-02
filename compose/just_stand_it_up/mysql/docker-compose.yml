@@ -9,18 +9,18 @@ services:
             - MYSQL_USER=irods
             - MYSQL_PASSWORD=testpassword
         # Our preferred choice for the character set and collation is "utf8" and "utf8_bin",
-        # but attempting to use those results in an iRODS setup error. The error is caused
-        # by a table exceeding the maximum row size allowed by MySQL
+        # as shown below, but attempting to use those results in an iRODS setup error. The error
+        # is caused by a table exceeding the maximum row size allowed by MySQL.
         #
         #   command: "--transaction-isolation=READ-COMMITTED --character-set-server=utf8 --collation-server=utf8_bin"
         #
         # To get around this, we use latin1_general_cs. Using this option keeps the row size within
-        # the allowed range and make queries case sensitive (this is required for proper use of iRODS).
+        # the allowed range and makes queries case sensitive (this is required for proper use of iRODS).
         command: "--transaction-isolation=READ-COMMITTED --collation-server=latin1_general_cs"
         expose:
             - "3306"
         volumes:
-            - "/home/kory/dev/prog/docker/irods_docker/compose/just_stand_it_up/mysql/catalog/db_commands.sql:/docker-entrypoint-initdb.d/db_commands.sql:ro"
+            - "./catalog/db_commands.sql:/docker-entrypoint-initdb.d/db_commands.sql:ro"
 
     provider:
         build:
@@ -35,4 +35,6 @@ services:
         volumes:
             - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
             - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "./install_irods.sh:/install_irods.sh:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+
