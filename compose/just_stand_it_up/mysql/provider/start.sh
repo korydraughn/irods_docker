@@ -4,7 +4,7 @@
 python wait_for_database.py catalog
 
 # Do last minute MySQL setup.
-ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
+#ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock
 
 # Update the zone name.
 sed -i "12s/.*/$IRODS_ZONE_NAME/" /provider.input

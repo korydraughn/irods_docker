@@ -8,11 +8,11 @@ services:
             - MYSQL_DATABASE=ICAT
             - MYSQL_USER=irods
             - MYSQL_PASSWORD=testpassword
-        # Our preferred choice for the character set and collation is "utf8" and "utf8_bin",
-        # as shown below, but attempting to use those results in an iRODS setup error. The error
-        # is caused by a table exceeding the maximum row size allowed by MySQL.
+        # Our preferred choice character set encoding and collation scheme is UTF-8, as shown below,
+        # but attempting to use those results in an iRODS setup error. The error is caused by a table
+        # exceeding the maximum row size allowed by MySQL.
         #
-        #   command: "--transaction-isolation=READ-COMMITTED --character-set-server=utf8 --collation-server=utf8_bin"
+        #   command: "--transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_bin"
         #
         # To get around this, we use latin1_general_cs. Using this option keeps the row size within
         # the allowed range and makes queries case sensitive (this is required for proper use of iRODS).
@@ -26,7 +26,7 @@ services:
         build:
             context: ./provider
             args:
-                irods_version: 4.2.8
+                irods_version: 4.2.7
                 irods_zone_name: tempZone
         depends_on:
             - catalog
