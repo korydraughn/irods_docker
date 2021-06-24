@@ -1,0 +1,73 @@
+version: "3.7"
+
+services:
+    catalog:
+        build:
+            context: ./catalog
+            args:
+                postgres_password: testpassword
+
+    # The iRODS catalog provider container.
+    provider:
+        build:
+            context: ./provider
+            args:
+                irods_version: 4.2.9
+                irods_zone_name: tempZone
+        depends_on:
+            - catalog
+        hostname: irods-provider
+        volumes:
+            - "./upgrade.sh:/upgrade.sh:ro"
+            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+
+    # An iRODS consumer container.
+    consumer_1:
+        build:
+            context: ./consumer
+            args:
+                irods_version: 4.2.9
+                irods_zone_name: tempZone
+        depends_on:
+            - provider
+        hostname: irods-consumer-1
+        volumes:
+            - "./upgrade.sh:/upgrade.sh:ro"
+            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+
+    # An iRODS consumer container.
+    consumer_2:
+        build:
+            context: ./consumer
+            args:
+                irods_version: 4.2.9
+                irods_zone_name: tempZone
+        depends_on:
+            - provider
+        hostname: irods-consumer-2
+        volumes:
+            - "./upgrade.sh:/upgrade.sh:ro"
+            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+
+    # A container with only icommands installed.
+    client:
+        build:
+            context: ./client
+            args:
+                irods_version: 4.2.9
+                irods_zone_name: tempZone
+        depends_on:
+            - consumer_1
+            - consumer_2
+        volumes:
+            - "./upgrade_icommands.sh:/upgrade_icommands.sh:ro"
+            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+
