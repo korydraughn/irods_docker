@@ -1,4 +1,4 @@
-FROM postgres:latest
+FROM postgres:10.12
 
 ARG postgres_password
 ENV POSTGRES_PASSWORD ${postgres_password}
