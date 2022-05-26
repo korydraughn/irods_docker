@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+    catalog:
+        image: mysql:8
+        environment:
+            - MYSQL_ROOT_PASSWORD=testpassword
+            - MYSQL_DATABASE=ICAT
+            - MYSQL_USER=irods
+            - MYSQL_PASSWORD=testpassword
+        # Our preferred choice character set encoding and collation scheme is UTF-8, as shown below,
+        # but attempting to use those results in an iRODS setup error. The error is caused by a table
+        # exceeding the maximum row size allowed by MySQL.
+        #
+        #   command: "--transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_bin"
+        #
+        # To get around this, we use latin1_general_cs. Using this option keeps the row size within
+        # the allowed range and makes queries case sensitive (this is required for proper use of iRODS).
+        #command: "--transaction-isolation=READ-COMMITTED --collation-server=latin1_general_cs"
+        command: "--transaction-isolation=READ-COMMITTED --character-set-server=latin1 --collation-server=latin1_general_cs --disable-log-bin"
+        #command: "--transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --disable-log-bin"
+        #command: "--transaction-isolation=READ-COMMITTED --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_as_cs --disable-log-bin"
+        expose:
+            - "3306"
+        volumes:
+            - "./catalog/db_commands.sql:/docker-entrypoint-initdb.d/db_commands.sql:ro"
+
+    provider:
+        build:
+            context: ./provider
+            args:
+                irods_version: 4.2.11~xenial
+                irods_zone_name: tempZone
+        depends_on:
+            - catalog
+        #ports:
+        #    - "25000:1247"
+        volumes:
+            - "/media/kory/disk_500gb/development_environment_output/packages/ub20:/irods_packages:ro"
+            - "./odbcinst.ini:/etc/odbcinst.ini:ro"
+
