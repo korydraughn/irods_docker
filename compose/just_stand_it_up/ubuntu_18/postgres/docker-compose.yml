@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+    catalog:
+        build:
+            context: ./catalog
+            args:
+                postgres_password: testpassword
+
+    provider:
+        build:
+            context: ./provider
+            args:
+                #irods_version: 4.2.11-1~bionic
+                irods_version: 4.2.10
+                irods_zone_name: tempZone
+        depends_on:
+            - catalog
+        ports:
+            #- "22247:1247"
+            - "1247:1247"
+#        volumes:
+#            - "/home/kory/dev/development_environment_output/packages:/irods_packages:ro"

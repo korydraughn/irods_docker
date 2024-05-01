@@ -12,15 +12,17 @@ services:
         build:
             context: ./provider
             args:
-                irods_version: 4.2.9
+                irods_version: 4.2.11-1~bionic
                 irods_zone_name: tempZone
         depends_on:
             - catalog
         hostname: irods-provider
         volumes:
             - "./upgrade.sh:/upgrade.sh:ro"
-            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
-            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/home/kory/dev/development_environment_output/packages:/irods_packages:ro"
+            - "/home/kory/provider.input.json:/provider.input.json:ro"
+            #- "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            #- "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
 
     # An iRODS consumer container.
@@ -28,46 +30,50 @@ services:
         build:
             context: ./consumer
             args:
-                irods_version: 4.2.9
+                irods_version: 4.2.11-1~bionic
                 irods_zone_name: tempZone
         depends_on:
             - provider
         hostname: irods-consumer-1
         volumes:
             - "./upgrade.sh:/upgrade.sh:ro"
-            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
-            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/home/kory/dev/development_environment_output/packages:/irods_packages:ro"
+            - "/home/kory/consumer.input.json:/consumer.input.json:ro"
+            #- "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            #- "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
 
-    # An iRODS consumer container.
-    consumer_2:
-        build:
-            context: ./consumer
-            args:
-                irods_version: 4.2.9
-                irods_zone_name: tempZone
-        depends_on:
-            - provider
-        hostname: irods-consumer-2
-        volumes:
-            - "./upgrade.sh:/upgrade.sh:ro"
-            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
-            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
-            - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+#   # An iRODS consumer container.
+#   consumer_2:
+#       build:
+#           context: ./consumer
+#           args:
+#               irods_version: 4.2.10
+#               irods_zone_name: tempZone
+#       depends_on:
+#           - provider
+#       hostname: irods-consumer-2
+#       volumes:
+#           - "./upgrade.sh:/upgrade.sh:ro"
+#           - "/home/kory/dev/development_environment_output/packages:/irods_packages:ro"
+#           #- "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+#           #- "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+#           - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
 
     # A container with only icommands installed.
     client:
         build:
             context: ./client
             args:
-                irods_version: 4.2.9
+                irods_version: 4.2.10
                 irods_zone_name: tempZone
         depends_on:
             - consumer_1
-            - consumer_2
+            #- consumer_2
         volumes:
             - "./upgrade_icommands.sh:/upgrade_icommands.sh:ro"
-            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
-            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/home/kory/dev/development_environment_output/packages:/irods_packages:ro"
+            #- "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            #- "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
 

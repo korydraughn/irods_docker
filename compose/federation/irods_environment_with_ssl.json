@@ -1,0 +1,12 @@
+{
+    "irods_client_server_policy": "CS_NEG_REQUIRE",
+    "irods_ssl_certificate_chain_file": "/irods-copy.crt",
+    "irods_ssl_certificate_key_file": "/irods-copy.key",
+    "irods_ssl_dh_params_file": "/dhparams.pem",
+    "irods_ssl_ca_certificate_file": "/irods-copy.crt",
+    "irods_ssl_verify_server": "cert",
+    "irods_encryption_algorithm": "AES-256-CBC",
+    "irods_encryption_key_size": 32,
+    "irods_encryption_num_hash_rounds": 16,
+    "irods_encryption_salt_size": 8
+}

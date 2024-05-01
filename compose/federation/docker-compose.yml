@@ -19,9 +19,13 @@ services:
             - tempzone_catalog
         volumes:
             - "./upgrade.sh:/upgrade.sh:ro"
-            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
-            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/home/kory/dev/development_environment_output/packages:/irods_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+            - "./irods.crt:/irods.crt:ro"
+            - "./irods.key:/irods.key:ro"
+            - "./dhparams.pem:/dhparams.pem:ro"
+            - "./irods_environment_with_ssl.json:/irods_environment_with_ssl.json:ro"
+            - "./irods.pam:/etc/pam.d/irods:ro"
 
     # Catalog for otherZone
     otherzone_catalog:
@@ -41,7 +45,11 @@ services:
             - otherzone_catalog
         volumes:
             - "./upgrade.sh:/upgrade.sh:ro"
-            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
-            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "/home/kory/dev/development_environment_output/packages:/irods_packages:ro"
             - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+            - "./irods.crt:/irods.crt:ro"
+            - "./irods.key:/irods.key:ro"
+            - "./dhparams.pem:/dhparams.pem:ro"
+            - "./irods_environment_with_ssl.json:/irods_environment_with_ssl.json:ro"
+            - "./irods.pam:/etc/pam.d/irods:ro"
 

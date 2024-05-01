@@ -1,0 +1,39 @@
+version: "2.4"
+
+services:
+    catalog:
+        # This compose file does not build any Oracle database. The user
+        # is responsible for providing an Oracle XE container image. See
+        # the following repo for details on accomplishing that:
+        #
+        #   https://github.com/oracle/docker-images/tree/main/OracleDatabase/SingleInstance
+        #
+        #image: oracle:18.4.0-xe
+        image: oracle:11.2.0.2-xe
+        environment:
+            - ORACLE_PWD=testpassword
+            #- INIT_SGA_SIZE=2000
+        expose:
+            - "1521"
+            - "5500"
+        #cpuset: 0,1 (works)
+        #cpuset: 0-2 (works)
+        cpuset: "0-3"
+        shm_size: "2g"
+
+    provider:
+        build:
+            context: ./provider
+            args:
+                irods_version: 4.2.9
+                irods_zone_name: tempZone
+        depends_on:
+            - catalog
+        #ports:
+        #    - "22247:1247"
+        volumes:
+            - "/home/kory/dev/prog/cpp/build_irods:/irods_server_packages:ro"
+            - "/home/kory/dev/prog/cpp/build_icommands:/icommands_packages:ro"
+            - "./install_irods.sh:/install_irods.sh:ro"
+            - "/opt/libc++:/opt/libc++:ro" # This is required because a debug libc++abi is being linked.
+

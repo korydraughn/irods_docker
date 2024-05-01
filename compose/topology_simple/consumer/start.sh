@@ -12,5 +12,10 @@ python /var/lib/irods/scripts/setup_irods.py < /consumer.input
 # This will generate an error for previous versions, which is totally harmless.
 su - irods -c './irodsctl -v start'
 
+#bash /upgrade.sh
+# The next line is testing setup of a new server.
+#python3 /var/lib/irods/scripts/setup_irods.py --json_configuration_file /consumer.input.json
+#su - irods -c './irodsctl -v start'
+
 # Keep container running.
 sleep 2147483647d

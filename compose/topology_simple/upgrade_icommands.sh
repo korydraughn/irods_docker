@@ -1,5 +1,5 @@
 #! /bin/bash
 
-apt update -y
-dpkg -i /icommands_packages/irods-*.deb
-apt install -fy
+#apt-get update -y
+#dpkg -i /irods_packages/irods-icommands*.deb
+#apt-get install -fy

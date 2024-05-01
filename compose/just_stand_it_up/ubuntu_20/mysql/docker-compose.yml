@@ -5,7 +5,7 @@ services:
         image: mysql:8
         environment:
             - MYSQL_ROOT_PASSWORD=testpassword
-            - MYSQL_DATABASE=ICAT
+            #- MYSQL_DATABASE=ICAT
             - MYSQL_USER=irods
             - MYSQL_PASSWORD=testpassword
         # Our preferred choice character set encoding and collation scheme is UTF-8, as shown below,

@@ -19,6 +19,11 @@ python /var/lib/irods/scripts/setup_irods.py < /provider.input
 # This will generate an error for previous versions, which is totally harmless.
 su - irods -c './irodsctl -v start'
 
+#bash /upgrade.sh
+## The next line is testing setup of a new server.
+#python3 /var/lib/irods/scripts/setup_irods.py --json_configuration_file /provider.input.json
+#su - irods -c './irodsctl -v start'
+
 # Create an additional rodsadmin user.
 su - irods -c 'iadmin mkuser otherrods rodsadmin && iadmin moduser otherrods password rods'
 
