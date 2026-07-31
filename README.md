@@ -6,6 +6,11 @@ All iRODS deployments use Postgres for the database.
 - **just_stand_it_up**: Simply stands up iRODS.
 - **old_stuff**: Some old attempts at standing up iRODS (and other things ...).
 - **package_building**: Uses iRODS CI tools to stand up iRODS.
+- **pam_interactive_test_harness**: Stands up iRODS 5.0.2 with PAM Interactive configured
+    - Configures PAM-enabled user named "john" with multi-step authentication (two passwords, ordered):
+        - Password 1 is `=i;r@o\d&s`
+        - Password 2 is `otherrods`
+    - Supports `pam_password` authentication scheme too
 - **parallel_tests**: Runs the iRODS test suite in parallel by spreading the tests across multiple containers.
 - **topo**: Launches a small iRODS zone.
 
